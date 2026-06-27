@@ -81,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'cyberlab_db',
         'USER': 'labuser1',
-        'PASSWORD': 'Stev2174',
+        'PASSWORD': 'David2026',
         'HOST': 'localhost',
         'PORT': '5432',
     }
