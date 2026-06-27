@@ -15,10 +15,9 @@ def register_view(request):
             email=form.cleaned_data['email'],
             password=form.cleaned_data['password1'],
         )
-        UserProfile.objects.create(
-            user=user,
-            role=form.cleaned_data['role']
-        )
+        profile = UserProfile.objects.get(user=user)
+        profile.role = form.cleaned_data['role']
+        profile.save()
         login(request, user, backend='django.contrib.auth.backends.ModelBackend')
         return redirect('incidents:home')
     return render(request, 'accounts/register.html', {'form': form})
