@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ incident.title }} | CyberLab</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: #f0f2f5; }
+        .container { max-width: 700px; margin: 40px auto; background: white; padding: 30px 36px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; font-size: 22px; margin-bottom: 20px; }
+        .info-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        .info-table td { padding: 10px 12px; border-bottom: 1px solid #eee; }
+        .info-table td:first-child { font-weight: bold; color: #555; width: 160px; }
+        .sev-low { color: #27ae60; font-weight: bold; }
+        .sev-medium { color: #e67e22; font-weight: bold; }
+        .sev-high { color: #e74c3c; font-weight: bold; }
+        .sev-critical { color: #8e44ad; font-weight: bold; }
+        .status-open { color: #e74c3c; font-weight: bold; }
+        .status-resolved { color: #27ae60; font-weight: bold; }
+        .description-box { margin-top: 20px; padding: 16px; background: #f9f9f9; border-left: 4px solid #2980b9; border-radius: 4px; font-size: 14px; line-height: 1.6; color: #333; }
+        .actions { margin-top: 24px; display: flex; gap: 12px; align-items: center; }
+        .btn { display: inline-block; padding: 8px 18px; border-radius: 4px; text-decoration: none; font-size: 14px; border: none; cursor: pointer; }
+        .btn-edit { background: #f39c12; color: white; }
+        .btn-edit:hover { background: #d68910; }
+        .btn-delete { background: #e74c3c; color: white; }
+        .btn-delete:hover { background: #c0392b; }
+        .btn-back { background: #ecf0f1; color: #2c3e50; }
+        .btn-back:hover { background: #d5d8dc; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ incident.title }}</h1>
+
+        <table class="info-table">
+            <tr>
+                <td>Severidad</td>
+                <td><span class="sev-{{ incident.severity|lower }}">{{ incident.severity }}</span></td>
+            </tr>
+            <tr>
+                <td>Estado</td>
+                <td>
+                    {% if incident.resolved %}
+                        <span class="status-resolved">Resuelto</span>
+                    {% else %}
+                        <span class="status-open">Abierto</span>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>Reportado por</td>
+                <td>{% if incident.reported_by %}{{ incident.reported_by.username }}{% else %}Desconocido{% endif %}</td>
+            </tr>
+            <tr>
+                <td>Fecha de reporte</td>
+                <td>{{ incident.reported_at|date:"d/m/Y H:i" }}</td>
+            </tr>
+            <tr>
+                <td>Ultima actualizacion</td>
+                <td>{{ incident.updated_at|date:"d/m/Y H:i" }}</td>
+            </tr>
+        </table>
+
+        <div class="description-box">
+            <strong>Descripcion:</strong><br><br>
+            {{ incident.description }}
+        </div>
+
+        <div class="actions">
+            <a href="{% url 'incidents:home' %}" class="btn btn-back">← Volver</a>
+            {% if request.user.userprofile.is_admin %}
+                <a href="{% url 'incidents:update' pk=incident.pk %}" class="btn btn-edit">Editar</a>
+                <a href="{% url 'incidents:delete' pk=incident.pk %}" class="btn btn-delete">Eliminar</a>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

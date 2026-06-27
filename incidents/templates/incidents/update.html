@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Incidente | CyberLab</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: #f0f2f5; }
+        .container { max-width: 600px; margin: 40px auto; background: white; padding: 30px 36px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; margin-bottom: 22px; font-size: 22px; }
+        .form-control { width: 100%; padding: 9px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+        .form-control:focus { outline: none; border-color: #f39c12; }
+        p label { font-size: 14px; color: #555; display: block; margin-bottom: 4px; margin-top: 14px; }
+        ul.errorlist { color: #c0392b; font-size: 13px; padding-left: 18px; margin-top: 4px; }
+        button[type=submit] { margin-top: 22px; padding: 10px 24px; background: #f39c12; color: white; border: none; border-radius: 4px; font-size: 14px; cursor: pointer; }
+        button[type=submit]:hover { background: #d68910; }
+        .back { display: inline-block; margin-top: 14px; font-size: 13px; color: #2980b9; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Editar: {{ incident.title }}</h1>
+
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Actualizar</button>
+        </form>
+
+        <a href="{% url 'incidents:detail' pk=incident.pk %}" class="back">← Cancelar</a>
+    </div>
+</body>
+</html>
